@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { width:1080px; height:1440px; overflow:hidden; }
+  body {
+    background:#151515;
+    font-family:"Microsoft YaHei","PingFang SC","Source Han Sans SC",sans-serif;
+    color:#fff; position:relative;
+  }
+  .wrap{padding:96px 88px;height:100%;display:flex;flex-direction:column;}
+  .badge{display:inline-block;align-self:flex-start;background:#D93A2B;color:#fff;
+         font-size:32px;font-weight:800;letter-spacing:2px;padding:13px 26px;}
+  .main{margin-top:auto;}
+  .l1{font-size:124px;font-weight:900;line-height:1.16;letter-spacing:-2px;color:#8C8C8C;}
+  .l2{font-size:132px;font-weight:900;line-height:1.14;letter-spacing:-3px;margin-top:6px;}
+  .l2 b{color:#FF5A47;}
+  .card{margin-top:64px;border:3px dashed rgba(217,58,43,.55);border-radius:18px;
+        padding:34px 36px;background:rgba(217,58,43,.07);position:relative;}
+  .card .hd{font-size:30px;color:#FF8B7D;letter-spacing:2px;margin-bottom:16px;}
+  .card .msg{font-size:40px;font-weight:700;line-height:1.45;color:#F2F2F2;}
+  .card .code{font-size:32px;color:#9A9A9A;margin-top:14px;}
+  .stamp{position:absolute;right:34px;top:26px;border:4px solid #D93A2B;color:#D93A2B;
+         font-size:30px;font-weight:900;letter-spacing:3px;padding:8px 16px;border-radius:8px;
+         transform:rotate(-8deg);opacity:.9;}
+  .foot{margin-top:auto;border-top:2px solid rgba(255,255,255,.12);padding-top:34px;
+        display:flex;justify-content:space-between;align-items:center;}
+  .foot span{font-size:32px;color:#808080;letter-spacing:1px;}
+  .foot b{font-size:30px;color:#FF5A47;border:2px solid #FF5A47;padding:10px 24px;border-radius:999px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="badge">提审前必看</div>
+
+  <div class="main">
+    <div class="l1">提审被拒 3 次</div>
+    <div class="l2">都是<b>同一个原因</b></div>
+
+    <div class="card">
+      <div class="stamp">已拒</div>
+      <div class="hd">驳回理由</div>
+      <div class="msg">个人主体未开放<br>该服务类目</div>
+      <div class="code">改代码没用 · 改类目或砍功能</div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span>类目 &gt; 资质 &gt; 内容 &gt; 技术</span>
+    <b>先分类再改</b>
+  </div>
+</div>
+</body>
+</html>

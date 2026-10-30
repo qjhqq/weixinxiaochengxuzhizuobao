@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { width:1080px; height:1440px; overflow:hidden; }
+  body {
+    background:#12224D;
+    font-family:"Microsoft YaHei","PingFang SC","Source Han Sans SC",sans-serif;
+    color:#fff; position:relative;
+  }
+  .glow{position:absolute;width:900px;height:900px;border-radius:50%;
+        background:radial-gradient(circle,rgba(76,141,255,.45) 0%,rgba(18,34,77,0) 68%);
+        top:-260px;right:-320px;}
+  .wrap{position:relative;padding:96px 88px;height:100%;display:flex;flex-direction:column;}
+  .badge{display:inline-block;align-self:flex-start;border:2px solid rgba(255,255,255,.35);
+         color:#CFE0FF;font-size:32px;font-weight:700;letter-spacing:3px;padding:12px 24px;border-radius:6px;}
+  .main{margin-top:auto;}
+  .l1{font-size:120px;font-weight:900;line-height:1.18;letter-spacing:-2px;color:#A9C0E8;}
+  .l2{font-size:132px;font-weight:900;line-height:1.14;letter-spacing:-3px;}
+  .l2 b{color:#5EA0FF;}
+  .card{margin-top:72px;background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.16);
+        border-radius:20px;padding:38px 40px;}
+  .row{display:flex;align-items:center;gap:20px;font-size:38px;color:#E8F0FF;margin-bottom:22px;}
+  .row:last-child{margin-bottom:0;}
+  .dot{width:16px;height:16px;border-radius:50%;background:#5EA0FF;flex:none;}
+  .row.small{font-size:32px;color:#8FA9D6;}
+  .chips{display:flex;gap:14px;margin-top:26px;}
+  .chip{font-size:28px;color:#CFE0FF;border:2px solid rgba(207,224,255,.3);padding:10px 20px;border-radius:999px;}
+  .foot{margin-top:auto;border-top:2px solid rgba(255,255,255,.14);padding-top:34px;
+        display:flex;justify-content:space-between;align-items:center;}
+  .foot span{font-size:32px;color:#7E97C4;letter-spacing:1px;}
+  .foot b{font-size:30px;background:#5EA0FF;color:#0B1836;padding:10px 24px;border-radius:999px;}
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<div class="wrap">
+  <div class="badge">压缩包 · 丢进去就行</div>
+
+  <div class="main">
+    <div class="l1">丢给 AI</div>
+    <div class="l2">它<b>带你做</b><br>不是替你写</div>
+
+    <div class="card">
+      <div class="row"><span class="dot"></span>先问你 4 个问题，不写一行代码</div>
+      <div class="row"><span class="dot"></span>再给你 7 步流程，每步有产出物</div>
+      <div class="row small"><span class="dot" style="background:#3C5C99"></span>它记得你做到哪一步，换会话也不丢</div>
+      <div class="chips">
+        <div class="chip">WorkBuddy</div>
+        <div class="chip">Cursor</div>
+        <div class="chip">Claude Code</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span>MIT · 免费开源</span>
+    <b>小程序开工包</b>
+  </div>
+</div>
+</body>
+</html>

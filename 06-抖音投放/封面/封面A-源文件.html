@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { width:1080px; height:1440px; overflow:hidden; }
+  body {
+    background:#0D0D0F;
+    font-family:"Microsoft YaHei","PingFang SC","Source Han Sans SC",sans-serif;
+    color:#fff; position:relative;
+  }
+  .grain{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:4px 4px;}
+  .wrap{position:relative;padding:96px 88px;height:100%;display:flex;flex-direction:column;}
+  .badge{display:inline-block;align-self:flex-start;border:2px solid #FFD84D;color:#FFD84D;
+         font-size:34px;font-weight:700;letter-spacing:2px;padding:12px 26px;border-radius:6px;}
+  .main{margin-top:auto;margin-bottom:auto;}
+  .l1{font-size:118px;font-weight:900;line-height:1.16;color:#9A9AA2;letter-spacing:-2px;}
+  .l2{font-size:132px;font-weight:900;line-height:1.14;letter-spacing:-3px;}
+  .hl{color:#FFD84D;}
+  .rule{width:120px;height:10px;background:#FFD84D;margin:56px 0 40px;}
+  .sub{font-size:46px;font-weight:500;color:#B9B9C0;line-height:1.5;letter-spacing:1px;}
+  .foot{display:flex;align-items:center;justify-content:space-between;
+        border-top:2px solid rgba(255,255,255,.14);padding-top:38px;}
+  .foot span{font-size:32px;color:#7C7C86;letter-spacing:1px;}
+  .pill{background:#FFD84D;color:#0D0D0F;font-size:32px;font-weight:800;padding:12px 28px;border-radius:999px;}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="wrap">
+  <div class="badge">免费开源</div>
+
+  <div class="main">
+    <div class="l1">做小程序</div>
+    <div class="l2">卡住的<br><span class="hl">从来不是代码</span></div>
+    <div class="rule"></div>
+    <div class="sub">是我每天打开电脑<br>不知道该干什么</div>
+  </div>
+
+  <div class="foot">
+    <span>一个人 + AI · 七步流程</span>
+    <div class="pill">v2.0</div>
+  </div>
+</div>
+</body>
+</html>
