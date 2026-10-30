@@ -1,118 +1,120 @@
-# 发布到 GitHub
+# 发布与更新
 
-> 给维护者自己看的。**本地仓库已经 init + 首次提交完成（50 个文件），只差绑定远程仓库和 push。**
+> 给维护者自己看的一页。**线上地址：<https://github.com/qjhqq/huage>**
 
 ---
 
-## 当前状态（2026-10-30）
+## 现在的状态（2026-10-30）
 
-- 已执行 `git init -b main`
-- 已完成首次提交：`feat: 小程序开工包 v2.0`
-- 已提交 50 个文件，工作区干净
-- `.gitconfig` 里没有你的身份，所以提交署名是占位符：`小程序开工包 <noreply@localhost>`
+- 仓库：`qjhqq/huage`，公开，默认分支 `main`
+- 已推送 commit `b467e20`：`feat: 小程序开工包 v2.0`
+- 远端 50 个文件，含 `.cursor/`、`.workbuddy/`、`.gitignore`
+- 提交署名 `qjhqq <3295428590@qq.com>`（token 带的身份）
 
-**先把署名改成你自己的**（这一步不做，GitHub 上提交不会关联到你的头像）：
+**注意：本机上 `git push` 走不通。** 测过，`github.com:443` 三次全部超时，
+`api.github.com` 正常。所以本次是用 GitHub 的 REST API 直接写的（见下）。
+
+---
+
+## 以后更新：用一个脚本，不碰 git
+
+包里的 `07-参与贡献/push-via-api.js` 就是干这个的。零依赖，只用 Node 自带的 fetch。
+
+### 1. 建 token（每台机器一次，建议 7 天有效）
+
+<https://github.com/settings/tokens/new>
+
+- Note：`push`
+- Expiration：7 days
+- 勾 **`repo`**（classic token）
+- Generate，复制 `ghp_` 开头那串
+
+### 2. 推
+
+在包根目录（有 `AGENTS.md` 那层）打开 PowerShell：
 
 ```powershell
-# 在 小程序开工包-v2.0 目录里执行
-& "$env:LOCALAPPDATA\MinGit\cmd\git.exe" config user.name "你的名字"
-& "$env:LOCALAPPDATA\MinGit\cmd\git.exe" config user.email "你的GitHub邮箱"
-& "$env:LOCALAPPDATA\MinGit\cmd\git.exe" commit --amend --reset-author --no-edit
+$env:GH_TOKEN = "ghp_你的token"
+node 07-参与贡献/push-via-api.js . --dry      # 先预演，看文件数对不对
+node 07-参与贡献/push-via-api.js . --go       # 真推
+Remove-Item Env:\GH_TOKEN                      # 推完清掉环境变量
 ```
 
-> 本机没装系统级 Git（winget 装需要管理员权限，UAC 被拒），
-> 现在用的是**便携版 MinGit**，路径 `C:\Users\QJH01\AppData\Local\MinGit\cmd\git.exe`。
-> 想以后直接敲 `git`，把上面这个 `cmd` 目录加进系统 PATH 即可。
-
----
-
-## 然后推送（三种方式选一个）
-
----
-
-## 方式一：网页上传（不装任何东西，最省事）
-
-适合：只是偶尔更新，不想折腾命令行。
-
-1. 打开 <https://github.com/new>
-2. 填：
-   - **Repository name**：`miniprogram-starter-kit`
-   - **Description**：`一个人 + AI 做微信小程序的七阶段工作流 · 丢给 AI 就能自动接手`
-   - 选 **Public**
-   - **不要**勾 Add a README / .gitignore / license（包里已经有了）
-3. 创建后，在仓库页点 **uploading an existing file**
-4. 把 `小程序开工包-v2.0` 文件夹**里面的内容**全选拖进去
-   （注意：拖里面的内容，不是拖文件夹本身，否则会多一层嵌套）
-5. Commit message 写 `feat: 小程序开工包 v2.0`
-6. 点 **Commit changes**
-
-⚠️ 网页上传**不会带上隐藏文件**（`.gitignore`、`.cursor/`、`.workbuddy/`）。
-如果你在意 `.cursor/rules` 和项目级 Skill，用方式二或三。
-
----
-
-## 方式二：命令行（推荐，能带上隐藏文件）
-
-仓库已经建好并提交过了，**不用再 init**。直接在 `小程序开工包-v2.0` 目录里：
+改了什么就写什么：
 
 ```powershell
-# 用便携版 git（本机没装系统级 git）
-$git = "$env:LOCALAPPDATA\MinGit\cmd\git.exe"
+node 07-参与贡献/push-via-api.js . --go --msg "fix: 补充审核红线"
+```
 
-& $git remote add origin https://github.com/<你的用户名>/miniprogram-starter-kit.git
+脚本会做三件事：上传所有文件 → 远端有、本地没有的文件**自动删除** → 新建 commit 并移动 `main`。
+token 只从环境变量读，不写进任何文件。
+
+### 3. 用完把 token 删掉
+
+同一个页面点 Delete。7 天后也会自己过期。
+
+---
+
+## 如果哪天网络正常了，也可以用 git
+
+本机没装系统级 Git（`winget` 装需要管理员权限，UAC 被拒），现在用的是便携版：
+
+```
+C:\Users\QJH01\AppData\Local\MinGit\cmd\git.exe
+```
+
+想以后直接敲 `git`，把这个 `cmd` 目录加进系统 PATH。
+
+```powershell
+$git = "$env:LOCALAPPDATA\MinGit\cmd\git.exe"
+& $git remote add origin https://github.com/qjhqq/huage.git
 & $git push -u origin main
 ```
 
-如果提示需要身份验证，用 GitHub 的 **Personal Access Token** 当密码
-（Settings → Developer settings → Personal access tokens → Fine-grained，勾 `repo` 权限）。
-
-想省掉每次输 token：装 [GitHub CLI](https://cli.github.com/)，然后
-
-```powershell
-gh auth login
-gh repo create miniprogram-starter-kit --public --source=. --push
-```
+⚠️ 本地仓库里那个 `bf2d1c9` 和远端的 `b467e20` 是两条独立的历史（内容一样）。
+真要切回 git，先 `& $git fetch origin` 再 `& $git reset --hard origin/main`，别直接 push，
+否则远端会被改回旧提交。
 
 ---
 
-## 方式三：GitHub Desktop（图形界面）
+## 其他上传方式（都不推荐）
 
-1. 装 [GitHub Desktop](https://desktop.github.com/)
-2. File → **Add existing repository** → 选 `小程序开工包-v2.0`
-   （已经有 `.git` 了，不用再 create）
-3. 右上角 **Publish repository**
-4. 名字填 `miniprogram-starter-kit`，**取消勾选 Keep this code private**
-5. Publish
+**网页上传**：<https://github.com/qjhqq/huage/upload/main>
+
+省事，但**不会带上隐藏文件** —— `.cursor/` 和 `.workbuddy/` 会丢，
+AI 自动入口等于废了一半。真要用，传完再单独补这两个目录。
+
+**GitHub Desktop**：装好后 File → Add existing repository → 选本文件夹 → Publish。
+它同样受 `github.com` 连不通的影响。
 
 ---
 
-## 发布后建议填的仓库信息
+## 仓库设置还没做的三件事
 
-**About（右侧齿轮）**
+**About**（仓库首页右侧齿轮）建议改成：
 
 ```
-一个人 + AI 做微信小程序的七阶段工作流。压缩包丢给 AI 编程工具，它会先采访你，
-再带你从想法做到提审。含阶段手册、8 份模板、10 组提示词、提审体检脚本。
+一个人 + AI 做微信小程序的七阶段工作流。压缩包丢给 AI 编程工具，
+它会先采访你，再带你从想法做到提审。含阶段手册、8 份模板、提审体检脚本。
 ```
 
-**Topics**（影响搜索，最多 20 个）
+现在的描述是 `A Github project for creating a weixin app`，可以留着，也可以换。
+
+**Topics**（影响搜索，最多 20 个）：
 
 ```
 wechat-miniprogram  miniprogram  ai-agent  workflow  agents-md
 cursor-rules  claude-code  indie-hacker  mit-license  chinese
 ```
 
-**Release**：打个 `v2.0` tag，把 zip 传到 Release 附件里。
-这样别人不用 clone 整个仓库也能直接下载，抖音里也好放链接。
+**Release**：打个 `v2.0` tag，把 `小程序开工包-v2.0.zip` 传成附件。
+这样别人不用 clone 就能直接下载，抖音简介里放这个链接最合适
+（`/releases/latest` 会自动跳到最新一版）。
 
 ---
 
-## 之后每次更新
+## 每次改完记得
 
-```powershell
-git add .
-git commit -m "fix: 补充 XXX 红线"
-git push
-```
-
-改完记得同步更新 `07-参与贡献/CHANGELOG.md`，并在 Release 里加一条。
+1. 更新 `07-参与贡献/CHANGELOG.md`
+2. 用上面的脚本推一次
+3. 如果改动大，补一个 Release

@@ -14,6 +14,8 @@
 - `.cursor/rules/` `CLAUDE.md` —— 覆盖 Cursor / Claude Code
 - `.workbuddy/skills/` —— 项目级技能，打开就生效
 - `06-抖音投放/` —— 口播脚本、文案、封面、置顶评论
+- `07-参与贡献/push-via-api.js` —— 走 GitHub REST API 推送的脚本。
+  `github.com` 连不上、`git push` 超时的网络环境下也能发布，零依赖
 
 ### 改进
 - 阶段从 6 个调成 7 个：合规独立成阶段 0，内容与开发并行
