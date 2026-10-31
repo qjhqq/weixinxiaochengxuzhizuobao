@@ -246,11 +246,13 @@ function checkJs(root, file, text) {
   }
 }
 
-function checkImages(root, files) {
+function checkImages(root, files, appDir) {
   let total = 0;
   for (const f of files) {
     const ext = path.extname(f).toLowerCase();
     if (!IMAGE_EXT.has(ext)) continue;
+    // 只算小程序目录里的图。传了项目根目录时，别把 06-抖音投放 的封面算进主包
+    if (appDir && !f.startsWith(appDir)) continue;
     const size = fs.statSync(f).size;
     total += size;
     if (size > MAX_IMAGE_BYTES) {
@@ -262,31 +264,37 @@ function checkImages(root, files) {
 }
 
 function checkAppJson(root, files) {
-  const appJsonPath = files.find(f => /app\.json$/i.test(f) && !/project\.config/i.test(f));
-  if (!appJsonPath) {
+  const candidates = files.filter(f => /app\.json$/i.test(f) && !/project\.config/i.test(f));
+  if (!candidates.length) {
     add('warn', '', 0, 'no-app-json', '没找到 app.json，确认传入的是小程序根目录（miniprogram/）');
-    return;
+    return '';
   }
+  // 有多个 app.json 时取层级最浅的那个（比如传了整个项目根目录）
+  candidates.sort((a, b) => a.split(path.sep).length - b.split(path.sep).length);
+  const appJsonPath = candidates[0];
+  // 关键：页面路径相对 app.json 所在目录解析，不是相对命令行传入的目录
+  const appDir = path.dirname(appJsonPath);
+
   let cfg;
   try {
     cfg = JSON.parse(readUtf8(appJsonPath));
   } catch (e) {
     add('error', rel(root, appJsonPath), 0, 'app-json-invalid', 'app.json 不是合法 JSON：' + e.message);
-    return;
+    return appDir;
   }
 
   const pages = Array.isArray(cfg.pages) ? cfg.pages : [];
   const missing = [];
   for (const p of pages) {
-    const wxml = path.join(root, p + '.wxml');
+    const wxml = path.join(appDir, p + '.wxml');
     if (!fs.existsSync(wxml)) missing.push(p);
   }
   if (missing.length) {
-    add('error', 'app.json', 0, 'page-missing', `这些页面在 app.json 里注册了但文件不存在：${missing.join(', ')}`);
+    add('error', rel(root, appJsonPath), 0, 'page-missing', `这些页面在 app.json 里注册了但文件不存在：${missing.join(', ')}`);
   }
 
   // .page 负边距陷阱：全局 .page 带负边距，只允许沉浸式页面使用
-  const appWxss = files.find(f => /app\.wxss$/i.test(f));
+  const appWxss = files.find(f => /app\.wxss$/i.test(f) && path.dirname(f) === appDir);
   let pageHasNegativeMargin = false;
   if (appWxss) {
     const css = readUtf8(appWxss);
@@ -295,7 +303,7 @@ function checkAppJson(root, files) {
   }
   if (pageHasNegativeMargin) {
     for (const p of pages) {
-      const jsonPath = path.join(root, p + '.json');
+      const jsonPath = path.join(appDir, p + '.json');
       let custom = false;
       if (fs.existsSync(jsonPath)) {
         try {
@@ -304,7 +312,7 @@ function checkAppJson(root, files) {
         } catch (e) { /* 忽略 */ }
       }
       if (custom) continue;
-      const wxmlPath = path.join(root, p + '.wxml');
+      const wxmlPath = path.join(appDir, p + '.wxml');
       if (!fs.existsSync(wxmlPath)) continue;
       const wxml = readUtf8(wxmlPath);
       const mm = wxml.match(/class\s*=\s*["'][^"']*\bpage\b[^"']*["']/);
@@ -317,6 +325,7 @@ function checkAppJson(root, files) {
 
   const tabBar = cfg.tabBar && cfg.tabBar.list ? cfg.tabBar.list.length : 0;
   if (tabBar) add('info', '', 0, 'tabbar', `tabBar 有 ${tabBar} 个 tab`);
+  return appDir;
 }
 
 /* ---------- main ---------- */
@@ -347,8 +356,8 @@ function main() {
     else if (ext === '.js' || ext === '.ts') checkJs(root, f, text);
   }
 
-  checkImages(root, files);
-  checkAppJson(root, files);
+  const appDir = checkAppJson(root, files);
+  checkImages(root, files, appDir);
 
   if (jsonMode) {
     console.log(JSON.stringify({
