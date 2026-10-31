@@ -6,6 +6,7 @@
 -->
 
 ```yaml
+kit_version: 2.2
 project: 未命名
 stage: none
 stage_status: not_started
@@ -13,6 +14,10 @@ owner_level: unknown
 subject_type: unknown
 updated: 
 ```
+
+> `kit_version` 是你这套流程文件的版本，不是小程序的版本。
+> AI 每次开场对比它和 `README.md` 标题里的版本号，不一致就提醒升级一次（见 `00-开工/升级与迁移.md`），
+> 用户说「先不管」就继续干活，不要再提。
 
 ---
 
@@ -42,6 +47,16 @@ updated:
 
 ---
 
+## 开发日志（阶段 4 专用）
+
+<!-- 每天收工写一行，倒序。AI 每次开场读最新一行，就知道今天从哪接。 -->
+
+| 日期 | 今天完成 | 明天从 | 卡在 |
+|------|---------|--------|------|
+| | | | |
+
+---
+
 ## 待办 / 阻塞
 
 <!-- 卡住的事写这里。AI 每次开场扫一眼，能解的先解。 -->
@@ -54,7 +69,7 @@ updated:
 
 **AI 改法**（每次阶段变化时）：
 
-1. 更新顶部 YAML 里的 `stage`、`stage_status`、`updated`
+1. 更新顶部 YAML 里的 `stage`、`stage_status`、`updated`（`kit_version` 不要随便改）
 2. 阶段状态表对应行改成 🟡 / ✅，填完成日期
 3. 有新的关键决定，追加到「决策记录」第一行
 

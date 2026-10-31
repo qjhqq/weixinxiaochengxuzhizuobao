@@ -31,8 +31,107 @@ const BANNED_WORDS = [
 ];
 
 const findings = { error: [], warn: [], info: [] };
-const add = (level, file, line, rule, message) =>
+let ignoredCount = 0;
+let ROOT = process.cwd();
+let IGNORE = [];
+const inlineIgnores = new Map();
+
+/* ---------- 忽略机制 ----------
+ * 两种写法，都只影响「这一条」，不做全局关闭：
+ *   1) 根目录 .checkignore
+ *        pages/legacy/*              → 这个文件全部不检查
+ *        page-class-misuse           → 全局忽略某条规则
+ *        pages/index/index.wxml:wxss-no-css-var   → 只忽略这个文件的这条
+ *   2) 行内注释，写在同一行或上一行
+ *        <!-- check-ignore page-class-misuse -->   忽略这一行的指定规则
+ *        /* check-ignore *\/                       忽略这一行的所有规则
+ */
+
+function globToRegExp(glob) {
+  const g = glob.replace(/\\/g, '/');
+  let re = '';
+  for (let i = 0; i < g.length; i++) {
+    const c = g[i];
+    if (c === '*') {
+      if (g[i + 1] === '*') {
+        re += '.*';
+        i++;
+        if (g[i + 1] === '/') i++;
+      } else {
+        re += '[^/]*';
+      }
+    } else if (c === '?') {
+      re += '[^/]';
+    } else {
+      re += /[.+^${}()|[\]\\]/.test(c) ? '\\' + c : c;
+    }
+  }
+  return new RegExp('^' + re + '$');
+}
+
+function loadIgnore() {
+  const p = path.join(ROOT, '.checkignore');
+  if (!fs.existsSync(p)) return [];
+  const out = [];
+  for (const raw of readUtf8(p).split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line || line.startsWith('#')) continue;
+    let glob = line;
+    let rules = null;
+    const m = line.match(/^(.*?)\s*:\s*([a-z0-9-]+(?:\s*,\s*[a-z0-9-]+)*)$/);
+    if (m) {
+      glob = m[1].trim();
+      rules = m[2].split(',').map(s => s.trim());
+    } else if (/^[a-z][a-z0-9]*(?:-[a-z0-9]+)+$/.test(line)) {
+      rules = [line];
+      glob = '**';
+    }
+    out.push({ re: globToRegExp(glob), rules });
+  }
+  return out;
+}
+
+function scanInline(relPath, text) {
+  const lines = text.split(/\r?\n/);
+  const all = new Set();
+  const rules = new Map();
+  lines.forEach((ln, i) => {
+    const at = ln.indexOf('check-ignore');
+    if (at < 0) return;
+    const n = i + 1;
+    const ids = ln.slice(at + 'check-ignore'.length).match(/[a-z][a-z0-9]*(?:-[a-z0-9]+)+/g);
+    if (!ids) {
+      all.add(n);
+      return;
+    }
+    for (const id of ids) {
+      if (!rules.has(id)) rules.set(id, new Set());
+      rules.get(id).add(n);
+    }
+  });
+  if (all.size || rules.size) inlineIgnores.set(relPath, { all, rules });
+}
+
+function isIgnored(file, rule, line) {
+  const r = String(file).replace(/\\/g, '/');
+  for (const it of IGNORE) {
+    if (!it.re.test(r)) continue;
+    if (!it.rules || it.rules.indexOf(rule) >= 0) return true;
+  }
+  const inl = inlineIgnores.get(r);
+  if (!inl) return false;
+  if (inl.all.has(line)) return true;
+  const s = inl.rules.get(rule);
+  return !!(s && s.has(line));
+}
+
+const add = (level, file, line, rule, message) => {
+  if (file && isIgnored(file, rule, line)) {
+    ignoredCount++;
+    return;
+  }
   findings[level].push({ file, line, rule, message });
+};
 
 function walk(dir, out = []) {
   let entries;
@@ -208,8 +307,9 @@ function checkAppJson(root, files) {
       const wxmlPath = path.join(root, p + '.wxml');
       if (!fs.existsSync(wxmlPath)) continue;
       const wxml = readUtf8(wxmlPath);
-      if (/class\s*=\s*["'][^"']*\bpage\b[^"']*["']/.test(wxml)) {
-        add('error', rel(root, wxmlPath), 0, 'page-class-misuse',
+      const mm = wxml.match(/class\s*=\s*["'][^"']*\bpage\b[^"']*["']/);
+      if (mm) {
+        add('error', rel(root, wxmlPath), lineOf(wxml, mm.index), 'page-class-misuse',
           '非沉浸式页面使用了全局 .page 类（带负边距），内容会被导航栏挡住；改用独立容器类如 .np');
       }
     }
@@ -232,12 +332,16 @@ function main() {
     process.exit(2);
   }
 
+  ROOT = root;
+  IGNORE = loadIgnore();
+
   const files = walk(root);
   const codeFiles = files.filter(f => CODE_EXT.has(path.extname(f).toLowerCase()));
 
   for (const f of codeFiles) {
     const text = readUtf8(f);
     const ext = path.extname(f).toLowerCase();
+    scanInline(rel(root, f), text);
     if (ext === '.wxss') checkWxss(root, f, text);
     else if (ext === '.wxml') checkWxml(root, f, text);
     else if (ext === '.js' || ext === '.ts') checkJs(root, f, text);
@@ -250,6 +354,7 @@ function main() {
     console.log(JSON.stringify({
       root,
       files: files.length,
+      ignored: ignoredCount,
       error: findings.error,
       warn: findings.warn,
       info: findings.info,
@@ -261,6 +366,9 @@ function main() {
   console.log('\n小程序体检报告');
   console.log('目录：' + root);
   console.log('扫描：' + files.length + ' 个文件');
+  if (ignoredCount) {
+    console.log('已忽略：' + ignoredCount + ' 条（按 .checkignore 或行内 check-ignore 注释）');
+  }
   console.log(line);
 
   const printGroup = (title, list, bullet) => {

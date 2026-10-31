@@ -1,0 +1,67 @@
+<view class="np">
+  <view class="page-pad">
+
+    <view class="card">
+      <view class="row-sb">
+        <view class="t-subtitle">每天喝多少</view>
+        <view class="goal-value">{{goal}} ml</view>
+      </view>
+      <slider
+        min="500"
+        max="3000"
+        step="100"
+        value="{{goal}}"
+        activeColor="#1989FA"
+        backgroundColor="#EDEDED"
+        block-size="24"
+        bindchange="onGoalChange"
+      />
+      <view class="t-caption">拖动调整，松手就保存。目标只影响进度条，不会限制你多喝。</view>
+    </view>
+
+    <view class="card" style="margin-top:24rpx">
+      <view class="row-sb field">
+        <view>
+          <view class="field-label">定时提醒</view>
+          <view class="t-caption">示例只做了开关，没接订阅消息</view>
+        </view>
+        <switch checked="{{reminder}}" color="#1989FA" bindchange="onReminderChange" />
+      </view>
+
+      <view class="row-sb field">
+        <view class="field-label">累计记录</view>
+        <view class="field-value">{{count}} 条</view>
+      </view>
+
+      <view class="row-sb field">
+        <view class="field-label">有记录的天数</view>
+        <view class="field-value">{{days}} 天</view>
+      </view>
+
+      <view class="row-sb field" wx:if="{{since}}">
+        <view class="field-label">最早一条</view>
+        <view class="field-value">{{since}}</view>
+      </view>
+    </view>
+
+    <view class="card" style="margin-top:24rpx">
+      <view class="row-sb field" bindtap="onAbout">
+        <view class="field-label">关于</view>
+        <view class="field-value">v2.2 示例 ›</view>
+      </view>
+
+      <view class="row-sb field" bindtap="onClear">
+        <view class="field-label c-danger">清空全部记录</view>
+        <view class="field-value c-danger">{{count}} 条 ›</view>
+      </view>
+    </view>
+
+    <view class="about t-caption">
+      数据只存在这台手机上，不上传，也没有账号。
+      卸载小程序、清理微信缓存、换手机都会丢。
+      需要换设备也能看，就在阶段 3 按数据模型接云开发。
+      <view style="margin-top:16rpx">本工具仅用于记录喝水，不构成任何医疗或健康建议。</view>
+    </view>
+
+  </view>
+</view>

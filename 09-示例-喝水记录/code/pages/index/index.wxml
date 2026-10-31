@@ -1,0 +1,60 @@
+<view class="np">
+  <view class="page-pad">
+
+    <view class="head">
+      <view>
+        <view class="t-title">今天</view>
+        <view class="t-caption">{{todayLabel}}</view>
+      </view>
+      <view class="streak" wx:if="{{streak > 1}}">连续 {{streak}} 天</view>
+    </view>
+
+    <view class="card hero">
+      <view class="hero-num">
+        <text class="t-display">{{total}}</text>
+        <text class="hero-unit">/ {{goal}} ml</text>
+      </view>
+      <view class="bar">
+        <view class="bar-fill" style="width:{{percent}}%"></view>
+      </view>
+      <view class="t-caption hero-hint">{{hint}}</view>
+    </view>
+
+    <button class="btn-primary main-btn" hover-class="btn-hover" bindtap="onAdd" data-amount="200">
+      喝一杯 200ml
+    </button>
+
+    <view class="quick">
+      <view class="chip" bindtap="onAdd" data-amount="300">+ 300</view>
+      <view class="chip" bindtap="onAdd" data-amount="500">+ 500</view>
+      <view class="chip" bindtap="onUndo" wx:if="{{total > 0}}">撤销</view>
+    </view>
+
+    <view class="section-title row-sb">
+      <text class="t-subtitle">今天的记录</text>
+      <text class="link" bindtap="goHistory" wx:if="{{recent.length}}">全部记录</text>
+    </view>
+
+    <view class="card empty" wx:if="{{recent.length === 0}}">
+      <view class="empty-title">还没有记录</view>
+      <view class="t-caption">点上面那个按钮，喝第一杯。</view>
+    </view>
+
+    <view class="card list" wx:else>
+      <view class="row item" wx:for="{{recent}}" wx:key="id">
+        <view class="dot"></view>
+        <view class="flex-1">
+          <view class="t-body">{{item.amount}} ml</view>
+          <view class="t-caption">{{item.time}}</view>
+        </view>
+        <view class="t-caption">{{item.ago}}</view>
+      </view>
+    </view>
+
+    <view class="tip t-caption">
+      记录只保存在这台手机上。卸载小程序或清理缓存会丢，换手机也看不到。
+      需要多端同步时，再按阶段 3 接云开发。
+    </view>
+
+  </view>
+</view>

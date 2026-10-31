@@ -1,0 +1,55 @@
+<view class="np">
+  <view class="page-pad">
+
+    <view class="card">
+      <view class="row-sb">
+        <view class="t-subtitle">近 7 天</view>
+        <view class="t-caption">日均 {{weekAvg}} ml</view>
+      </view>
+
+      <view class="chart">
+        <view class="chart-col" wx:for="{{days}}" wx:key="key">
+          <view
+            class="chart-bar {{item.isToday ? 'is-today' : ''}}"
+            style="height:{{item.height}}%">
+          </view>
+          <view class="day-label {{item.isToday ? 'is-today' : ''}}">{{item.label}}</view>
+        </view>
+      </view>
+
+      <view class="t-caption" style="margin-top:16rpx">合计 {{weekTotal}} ml，柱高按这七天的最高值等比缩放。</view>
+    </view>
+
+    <view class="card empty" wx:if="{{groups.length === 0}}">
+      <view class="empty-title">还没有任何记录</view>
+      <view class="t-caption">回「今天」页，点一下按钮就有了。</view>
+    </view>
+
+    <view class="group" wx:for="{{groups}}" wx:key="key" wx:for-item="g">
+      <view class="group-head row-sb">
+        <text class="t-subtitle">{{g.label}}</text>
+        <text class="t-caption">{{g.total}} ml</text>
+      </view>
+
+      <view class="card">
+        <view
+          class="row row-item"
+          wx:for="{{g.items}}"
+          wx:key="id"
+          wx:for-item="it"
+          bindtap="onItemTap"
+          data-id="{{it.id}}"
+          data-amount="{{it.amount}}">
+          <view class="flex-1">
+            <view class="amount">{{it.amount}} ml</view>
+            <view class="t-caption">{{it.time}}</view>
+          </view>
+          <view class="t-caption">{{it.ago}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="tip t-caption">点任意一条可以删除。这里只显示最近 14 天。</view>
+
+  </view>
+</view>

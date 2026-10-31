@@ -1,4 +1,4 @@
-# 发布与更新
+﻿# 发布与更新
 
 > 给维护者自己看的一页。**线上地址：<https://github.com/qjhqq/huage>**
 
@@ -7,9 +7,9 @@
 ## 现在的状态（2026-10-31）
 
 - 仓库：`qjhqq/huage`，公开，默认分支 `main`
-- 最新 commit：`feat: 小程序开工包 v2.1 · 设计参考库`
-- 远端 58 个文件，含 `.cursor/`、`.workbuddy/`、`.gitignore`
-- Release：`v2.1`，附件 `miniprogram-starter-kit-v2.1.zip`
+- 最新 commit：`feat: 小程序开工包 v2.2 · 补流程漏洞 + 示例项目`
+- 远端 81 个文件，含 `.cursor/`、`.workbuddy/`、`.gitignore`
+- Release：`v2.2`，附件 `miniprogram-starter-kit-v2.2.zip`
 - 提交署名 `qjhqq <3295428590@qq.com>`（token 带的身份）
 
 **注意：本机上 `git push` 走不通。** 测过，`github.com:443` 三次全部超时，
@@ -61,7 +61,7 @@ token 只从环境变量读，不写进任何文件。
 本机没装系统级 Git（`winget` 装需要管理员权限，UAC 被拒），现在用的是便携版：
 
 ```
-C:\Users\QJH01\AppData\Local\MinGit\cmd\git.exe
+C:\Users\你的用户名\AppData\Local\MinGit\cmd\git.exe
 ```
 
 想以后直接敲 `git`，把这个 `cmd` 目录加进系统 PATH。
@@ -107,7 +107,7 @@ cursor-rules  claude-code  indie-hacker  mit-license  chinese
 wechat  prompt-engineering  vibe-coding
 ```
 
-**Release**：`v2.1`，附件 `miniprogram-starter-kit-v2.1.zip`。
+**Release**：`v2.2`，附件 `miniprogram-starter-kit-v2.2.zip`。
 别人不用 clone 就能直接下载，抖音简介里放 `/releases/latest` 最合适 —— 它会自动跳到最新一版。
 
 ```powershell
