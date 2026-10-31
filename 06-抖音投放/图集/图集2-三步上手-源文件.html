@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { width:1080px; height:1440px; overflow:hidden; }
+  body {
+    background:#0D0D0F;
+    font-family:"Microsoft YaHei","PingFang SC","Source Han Sans SC",sans-serif;
+    color:#fff; position:relative;
+  }
+  .grain{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:4px 4px;}
+
+  .wrap{position:relative;padding:64px 88px 60px;height:100%;display:flex;flex-direction:column;}
+
+  .badge{display:inline-block;align-self:flex-start;border:2px solid #FFD84D;color:#FFD84D;
+         font-size:32px;font-weight:700;letter-spacing:2px;padding:11px 24px;border-radius:6px;}
+
+  .head{margin-top:26px;}
+  .h1{font-size:52px;font-weight:700;color:#8E8E98;line-height:1.2;letter-spacing:3px;}
+  .h2{font-size:106px;font-weight:900;line-height:1.12;letter-spacing:-2px;margin-top:6px;}
+  .h2 em{font-style:normal;color:#FFD84D;}
+
+  .rule{width:104px;height:8px;background:#FFD84D;margin:30px 0 0;}
+
+  .steps{margin-top:34px;display:flex;flex-direction:column;}
+
+  .step{display:flex;align-items:flex-start;margin-bottom:26px;}
+  .num{flex:0 0 60px;height:60px;border-radius:50%;background:#FFD84D;color:#0D0D0F;
+       font-size:33px;font-weight:900;display:flex;align-items:center;justify-content:center;
+       margin-right:28px;margin-top:3px;}
+  .txt{flex:1;padding-top:2px;}
+  .t1{font-size:52px;font-weight:800;line-height:1.24;letter-spacing:-.5px;}
+  .t1 b{color:#FFD84D;}
+  .t2{font-size:30px;font-weight:400;color:#9A9AA2;line-height:1.42;margin-top:8px;letter-spacing:.5px;}
+  .t2 s{text-decoration:none;color:#FFD84D;font-weight:700;}
+  .t2 .em{color:#C6C6CF;}
+
+  .quote{background:#17171B;border-left:8px solid #FFD84D;border-radius:10px;
+         padding:26px 30px;margin:18px 0 0 88px;}
+  .quote p{font-size:34px;font-weight:700;line-height:1.5;letter-spacing:.5px;}
+  .quote p i{font-style:normal;color:#FFD84D;}
+  .quote .note{font-size:25px;font-weight:400;color:#A8A8B2;margin-top:10px;letter-spacing:.5px;}
+
+  .tip{margin-top:auto;margin-bottom:32px;display:flex;align-items:center;
+       font-size:28px;color:#8E8E98;letter-spacing:1px;}
+  .tip::before{content:"";width:9px;height:9px;border-radius:50%;background:#FFD84D;margin-right:14px;}
+
+  .warn{margin-top:0;margin-bottom:20px;display:flex;align-items:center;
+        background:#1E1414;border:2px solid #8C3B2E;border-radius:10px;padding:18px 24px;}
+  .warn .k{font-size:32px;font-weight:900;color:#FF7A5C;margin-right:16px;}
+  .warn .v{font-size:29px;color:#D8B4AC;line-height:1.4;}
+
+  .foot{display:flex;align-items:center;justify-content:space-between;
+        border-top:2px solid rgba(255,255,255,.14);padding-top:26px;}
+  .foot span{font-size:29px;color:#7C7C86;letter-spacing:1px;}
+  .pill{background:#FFD84D;color:#0D0D0F;font-size:29px;font-weight:800;padding:10px 24px;border-radius:999px;}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="wrap">
+
+  <div class="badge">上手只要 3 步</div>
+
+  <div class="head">
+    <div class="h1">拿到压缩包以后</div>
+    <div class="h2">就这<em>三步</em></div>
+  </div>
+  <div class="rule"></div>
+
+  <div class="steps">
+
+    <div class="step">
+      <div class="num">1</div>
+      <div class="txt">
+        <div class="t1">解压到空文件夹</div>
+        <div class="t2">别丢在桌面，别和别的东西混着</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">2</div>
+      <div class="txt">
+        <div class="t1">打开<b>里面那一层</b></div>
+        <div class="t2">第一眼能看到 <s>AGENTS.md</s> 才对<br><span class="em">开错层 → 它只会给你念一遍目录</span></div>
+      </div>
+    </div>
+
+    <div class="step" style="margin-bottom:0;">
+      <div class="num">3</div>
+      <div class="txt">
+        <div class="t1">粘这句话</div>
+      </div>
+    </div>
+
+    <div class="quote">
+      <p>读一下 <i>AGENTS.md</i><br>带我做一个微信小程序，<br>直接开始，别先给我讲目录。</p>
+      <div class="note">它开始问你带选项的问题 —— 就对了</div>
+    </div>
+
+  </div>
+
+  <div class="tip">下载地址在评论区置顶</div>
+
+  <div class="warn">
+    <div class="k">✕</div>
+    <div class="v">只把 zip 拖进对话框：能聊，但代码存不下来</div>
+  </div>
+
+  <div class="foot">
+    <span>一个人 + AI · 七步流程</span>
+    <div class="pill">v2.2</div>
+  </div>
+
+</div>
+</body>
+</html>
