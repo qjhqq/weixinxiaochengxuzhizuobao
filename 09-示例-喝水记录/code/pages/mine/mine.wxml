@@ -47,7 +47,7 @@
     <view class="card" style="margin-top:24rpx">
       <view class="row-sb field" bindtap="onAbout">
         <view class="field-label">关于</view>
-        <view class="field-value">v2.2 示例 ›</view>
+        <view class="field-value">v2.3 示例 ›</view>
       </view>
 
       <view class="row-sb field" bindtap="onClear">
