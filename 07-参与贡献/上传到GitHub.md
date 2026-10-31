@@ -4,11 +4,12 @@
 
 ---
 
-## 现在的状态（2026-10-30）
+## 现在的状态（2026-10-31）
 
 - 仓库：`qjhqq/huage`，公开，默认分支 `main`
-- 已推送 commit `b467e20`：`feat: 小程序开工包 v2.0`
-- 远端 50 个文件，含 `.cursor/`、`.workbuddy/`、`.gitignore`
+- 最新 commit：`feat: 小程序开工包 v2.1 · 设计参考库`
+- 远端 58 个文件，含 `.cursor/`、`.workbuddy/`、`.gitignore`
+- Release：`v2.1`，附件 `miniprogram-starter-kit-v2.1.zip`
 - 提交署名 `qjhqq <3295428590@qq.com>`（token 带的身份）
 
 **注意：本机上 `git push` 走不通。** 测过，`github.com:443` 三次全部超时，
@@ -89,27 +90,31 @@ AI 自动入口等于废了一半。真要用，传完再单独补这两个目�
 
 ---
 
-## 仓库设置还没做的三件事
+## 仓库信息（已设置好）
 
-**About**（仓库首页右侧齿轮）建议改成：
+**About**
 
 ```
 一个人 + AI 做微信小程序的七阶段工作流。压缩包丢给 AI 编程工具，
 它会先采访你，再带你从想法做到提审。含阶段手册、8 份模板、提审体检脚本。
 ```
 
-现在的描述是 `A Github project for creating a weixin app`，可以留着，也可以换。
-
-**Topics**（影响搜索，最多 20 个）：
+**Topics**（13 个）
 
 ```
 wechat-miniprogram  miniprogram  ai-agent  workflow  agents-md
 cursor-rules  claude-code  indie-hacker  mit-license  chinese
+wechat  prompt-engineering  vibe-coding
 ```
 
-**Release**：打个 `v2.0` tag，把 `小程序开工包-v2.0.zip` 传成附件。
-这样别人不用 clone 就能直接下载，抖音简介里放这个链接最合适
-（`/releases/latest` 会自动跳到最新一版）。
+**Release**：`v2.1`，附件 `miniprogram-starter-kit-v2.1.zip`。
+别人不用 clone 就能直接下载，抖音简介里放 `/releases/latest` 最合适 —— 它会自动跳到最新一版。
+
+```powershell
+# 打新版时把这两行改一下就能复现
+# POST /repos/qjhqq/huage/releases           tag_name=v2.x
+# POST uploads.github.com/.../assets?name=miniprogram-starter-kit-v2.x.zip
+```
 
 ---
 
