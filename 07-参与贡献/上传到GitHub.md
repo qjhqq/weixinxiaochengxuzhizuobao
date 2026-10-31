@@ -7,9 +7,9 @@
 ## 现在的状态（2026-10-31）
 
 - 仓库：`qjhqq/huage`，公开，默认分支 `main`
-- 最新 commit：`feat: 小程序开工包 v2.3 · 一键装成技能`
+- 最新 commit：`feat: 小程序开工包 v2.4 · 一键装成技能`
 - 远端 88 个文件，含 `.cursor/`、`.workbuddy/`、`.gitignore`
-- Release：`v2.3`，附件 `miniprogram-starter-kit-v2.3.zip`
+- Release：`v2.4`，附件 `miniprogram-starter-kit-v2.4.zip`
 - 提交署名 `qjhqq <3295428590@qq.com>`（token 带的身份）
 
 **注意：本机上 `git push` 走不通。** 测过，`github.com:443` 三次全部超时，
@@ -107,7 +107,7 @@ cursor-rules  claude-code  indie-hacker  mit-license  chinese
 wechat  prompt-engineering  vibe-coding
 ```
 
-**Release**：`v2.3`，附件 `miniprogram-starter-kit-v2.3.zip`。
+**Release**：`v2.4`，附件 `miniprogram-starter-kit-v2.4.zip`。
 别人不用 clone 就能直接下载，抖音简介里放 `/releases/latest` 最合适 —— 它会自动跳到最新一版。
 
 ```powershell

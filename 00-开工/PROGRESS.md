@@ -6,7 +6,7 @@
 -->
 
 ```yaml
-kit_version: 2.2
+kit_version: 2.4
 project: 未命名
 stage: none
 stage_status: not_started

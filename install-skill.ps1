@@ -18,7 +18,7 @@ if (-not (Test-Path $src)) {
     Write-Host "  × 找不到技能目录" -ForegroundColor Red
     Write-Host "    $src" -ForegroundColor DarkGray
     Write-Host ""
-    Write-Host "    请把这个脚本放在解压后的 小程序开工包-v2.3 文件夹里再双击。"
+    Write-Host "    请把这个脚本放在解压后的 小程序开工包-v2.4 文件夹里再双击。"
     Write-Host ""
     exit 1
 }
